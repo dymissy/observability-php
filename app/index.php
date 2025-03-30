@@ -8,6 +8,7 @@ use Prometheus\Storage\APC;
 use Prometheus\RenderTextFormat;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Monolog\Formatter\LineFormatter;
 
 $registry = new CollectorRegistry(new APC());
 
@@ -22,7 +23,10 @@ $counter = $registry->getOrRegisterCounter(
 );
 
 $log = new Logger('php_app');
-$log->pushHandler(new StreamHandler('/var/log/php_app/app.log', Logger::INFO));
+$formatter = new LineFormatter("[%datetime%] %level_name% %message%\n");
+$stream = new StreamHandler('/var/log/php_app/app.log', Logger::DEBUG);
+$stream->setFormatter($formatter);
+$log->pushHandler($stream);
 
 $app = AppFactory::create();
 $app->addErrorMiddleware(true, true, true);
