@@ -1,29 +1,88 @@
 {
-  "dashboard": {
-    "title": "PHP Application Metrics",
-    "panels": [
+  "annotations": {
+    "list": [
       {
-        "title": "HTTP Requests per Status Code",
-        "type": "graph",
-        "targets": [
-          {
-            "expr": "sum by (status) (php_app_http_requests_total)",
-            "legendFormat": "{{status}}",
-            "refId": "A"
-          }
-        ]
-      },
-      {
-        "title": "Response Time",
-        "type": "graph",
-        "targets": [
-          {
-            "expr": "histogram_quantile(0.95, rate(php_app_response_time_seconds_bucket[5m]))",
-            "legendFormat": "95th Percentile",
-            "refId": "B"
-          }
-        ]
+        "builtIn": 1,
+        "type": "dashboard",
+        "name": "Annotations & Alerts",
+        "enabled": true
       }
     ]
-  }
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1647323229164,
+  "links": [],
+  "panels": [
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "title": "Response Time (Histogram)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "expr": "php_app_response_time_seconds_bucket",
+          "interval": "",
+          "legendFormat": "{{status}} - {{le}}s",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 2,
+      "title": "HTTP Requests Total",
+      "type": "timeseries",
+      "targets": [
+        {
+          "expr": "php_app_http_requests_total",
+          "interval": "",
+          "legendFormat": "{{status}}",
+          "refId": "B"
+        }
+      ]
+    }
+  ],
+  "schemaVersion": 30,
+  "style": "dark",
+  "tags": [
+    "php",
+    "observability"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "PHP Observability",
+  "uid": "php-observability",
+  "version": 1
 }
