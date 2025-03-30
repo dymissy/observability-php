@@ -1,0 +1,31 @@
+{
+    "dashboard": {
+      "id": null,
+      "title": "PostgreSQL Metrics",
+      "timezone": "browser",
+      "panels": [
+        {
+          "title": "Active Connections",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "pg_stat_database_numbackends",
+              "format": "time_series"
+            }
+          ]
+        },
+        {
+          "title": "Transaction Rate",
+          "type": "graph",
+          "targets": [
+            {
+              "expr": "rate(pg_stat_database_xact_commit[5m])",
+              "format": "time_series"
+            }
+          ]
+        }
+      ],
+      "schemaVersion": 16
+    }
+  }
+  

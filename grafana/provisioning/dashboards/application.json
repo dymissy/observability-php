@@ -1,0 +1,29 @@
+{
+  "dashboard": {
+    "title": "PHP Application Metrics",
+    "panels": [
+      {
+        "title": "HTTP Requests per Status Code",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "sum by (status) (php_app_http_requests_total)",
+            "legendFormat": "{{status}}",
+            "refId": "A"
+          }
+        ]
+      },
+      {
+        "title": "Response Time",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(php_app_response_time_seconds_bucket[5m]))",
+            "legendFormat": "95th Percentile",
+            "refId": "B"
+          }
+        ]
+      }
+    ]
+  }
+}

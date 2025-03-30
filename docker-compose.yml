@@ -1,0 +1,87 @@
+services:
+  php:
+    build: ./app
+    volumes:
+      - ./app:/var/www/html
+      - php_logs:/var/log/php_app
+    networks:
+      - observability_net
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+    networks:
+      - observability_net
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - observability_net
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - observability_net
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana:/etc/grafana/provisioning/
+    depends_on:
+      - prometheus
+    networks:
+      - observability_net
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    networks:
+      - observability_net
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.17.0
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+      - php_logs:/var/log/php_app
+    depends_on:
+      - elasticsearch
+    networks:
+      - observability_net
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.17.0
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - observability_net
+
+volumes:
+  postgres_data:
+  php_logs:
+
+networks:
+  observability_net:

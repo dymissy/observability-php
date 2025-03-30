@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: 'php_app'
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['nginx:80']
+
+  - job_name: 'postgres_db'
+    static_configs:
+      - targets: ['db:5432']
