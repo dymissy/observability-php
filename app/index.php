@@ -34,7 +34,6 @@ $app->addErrorMiddleware(true, true, true);
 $app->get('/200', function ($request, $response) use ($histogram, $counter, $log) {
     $start = microtime(true);
     $counter->inc(['200']);
-    usleep(rand(10000, 200000));
     $histogram->observe(microtime(true) - $start, ['200']);
     $log->info("200 OK");
     $response->getBody()->write("OK");

@@ -9,5 +9,11 @@
         "psr-4": {
             "App\\": "src/"
         }
-    }
+    },
+    "authors": [
+        {
+            "name": "Simone D'Amico",
+            "email": "dymissy86@gmail.com"
+        }
+    ]
 }
