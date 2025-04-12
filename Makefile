@@ -20,9 +20,12 @@ down: ## stop all the containers
 logs: ## tail on docker logs
 	docker compose logs -f
 
-##@ -> ⚙️Start services
+##@ -> 🔩️ Start services
 kibana-up: ## start kibana
 	./kibana/setup-kibana.sh
 
-stress-test: ## run stress test
-	./stress_test.sh
+stress-test: ## run stress test simulating 200, 404, and 500 errors
+	./stress-test/stress-test.sh
+
+stress-test-500: ## run stress test simulating 500 errors only
+	./stress-test/stress-test-500.sh

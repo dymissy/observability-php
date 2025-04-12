@@ -30,11 +30,13 @@ make stress-test
 
 ## How it works 
 
-The `stress_test.sh` script simulates traffic to the application by sending HTTP requests:  
+The `stress-test/stress-test.sh` script simulates traffic to the application by sending HTTP requests:  
 
 - **200 OK**: Sent continuously.
 - **404 Not Found**: Sent every 10 successful requests.
 - **500 Internal Server Error**: Sent every 20 successful requests.
+
+The `stress-test/stress-test-500.sh` script simulates traffic to the application by sending HTTP requests with a 500 error response.
 
 This helps test the monitoring and logging setup under different conditions.
 
