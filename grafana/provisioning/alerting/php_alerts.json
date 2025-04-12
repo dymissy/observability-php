@@ -1,0 +1,94 @@
+{
+  "apiVersion": 1,
+  "groups": [
+    {
+      "orgId": 1,
+      "name": "PHP Alerts",
+      "folder": "PHP Alerts",
+      "interval": "1m",
+      "rules": [
+        {
+          "uid": "eeiphh6q91b7kc",
+          "title": "TOO_MANY_500_ERRORS",
+          "condition": "C",
+          "data": [
+            {
+              "refId": "A",
+              "relativeTimeRange": {
+                "from": 600,
+                "to": 0
+              },
+              "datasourceUid": "PBFA97CFB590B2093",
+              "model": {
+                "editorMode": "code",
+                "expr": "100 * rate(php_app_http_requests_total{status=\"500\"}[5m])\n  /\non(instance, job)\nsum by(instance, job)(rate(php_app_http_requests_total[5m])) > 3",
+                "instant": true,
+                "intervalMs": 1000,
+                "legendFormat": "__auto",
+                "maxDataPoints": 43200,
+                "range": false,
+                "refId": "A"
+              }
+            },
+            {
+              "refId": "C",
+              "relativeTimeRange": {
+                "from": 0,
+                "to": 0
+              },
+              "datasourceUid": "__expr__",
+              "model": {
+                "conditions": [
+                  {
+                    "evaluator": {
+                      "params": [
+                        3
+                      ],
+                      "type": "gte"
+                    },
+                    "operator": {
+                      "type": "and"
+                    },
+                    "query": {
+                      "params": [
+                        "C"
+                      ]
+                    },
+                    "reducer": {
+                      "params": [],
+                      "type": "last"
+                    },
+                    "type": "query"
+                  }
+                ],
+                "datasource": {
+                  "type": "__expr__",
+                  "uid": "__expr__"
+                },
+                "expression": "A",
+                "intervalMs": 1000,
+                "maxDataPoints": 43200,
+                "refId": "C",
+                "type": "threshold"
+              }
+            }
+          ],
+          "noDataState": "KeepLast",
+          "execErrState": "Error",
+          "for": "1m",
+          "annotations": {
+            "description": "More than 5% of HTTP responses have returned 500 status codes in the past 5 minutes. Current value: {{ $value | printf \"%.2f\" }}%.",
+            "summary": "High percentage of HTTP 500 errors in php_app"
+          },
+          "labels": {
+            "severity": "CRITICAL"
+          },
+          "isPaused": false,
+          "notification_settings": {
+            "receiver": "grafana-default-email"
+          }
+        }
+      ]
+    }
+  ]
+}
