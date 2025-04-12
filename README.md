@@ -24,8 +24,8 @@ The following services are included in this project:
 To set up the project, run the following commands:
 
 ```bash
-docker compose up
-./kibana/setup-kibana.sh && ./stress_test.sh
+make up
+make stress-test
 ```
 
 ## How it works 
