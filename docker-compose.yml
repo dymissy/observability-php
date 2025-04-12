@@ -19,6 +19,13 @@ services:
     networks:
       - observability_net
 
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - observability_net
+
   db:
     image: postgres:15
     environment:

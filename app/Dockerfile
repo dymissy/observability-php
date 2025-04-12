@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo pdo_pgsql
 
 RUN pecl install apcu && docker-php-ext-enable apcu
+RUN pecl install redis && docker-php-ext-enable redis
 
 WORKDIR /var/www/html
 

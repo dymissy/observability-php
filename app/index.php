@@ -4,13 +4,18 @@ require 'vendor/autoload.php';
 
 use Slim\Factory\AppFactory;
 use Prometheus\CollectorRegistry;
-use Prometheus\Storage\APC;
 use Prometheus\RenderTextFormat;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Formatter\LineFormatter;
+use Prometheus\Storage\Redis;
 
-$registry = new CollectorRegistry(new APC());
+$adapter = new Redis([
+    'host' => 'redis',
+    'port' => 6379,
+]);
+
+$registry = new CollectorRegistry($adapter);
 
 $histogram = $registry->getOrRegisterHistogram(
     'php_app', 'response_time_seconds', 'Application Response Time',
