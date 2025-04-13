@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-.PHONY: help up
+.PHONY: help up down logs kibana-up stress-test stress-test-500
 .ONESHELL:
 
 WARNING='\033[0;33m'
@@ -25,7 +25,7 @@ kibana-up: ## start kibana
 	./kibana/setup-kibana.sh
 
 stress-test: ## run stress test simulating 200, 404, and 500 errors
-	./stress-test/stress-test.sh
+	sh ./stress-test/stress-test.sh
 
 stress-test-500: ## run stress test simulating 500 errors only
 	./stress-test/stress-test-500.sh
